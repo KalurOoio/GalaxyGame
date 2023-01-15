@@ -9,9 +9,11 @@ public class LewelManagerScript : MonoBehaviour
     Vector3 startPlayerPosition = new Vector3(0, -3.5f, 0);
 
     public GameObject enemyGroupOriginal;
+    public GameObject RamGroupOriginal;
     Vector3 startEnemyGroupPosition = new Vector3(0, 3.15f, 0);
 
-    private FirstGroup currentGroup;
+    private BaseGroup currentGroup;
+    private GroupType[] levelGroupTypes = { GroupType.ram };
     private int groupCount = 0;
 
     void Start()
@@ -26,7 +28,7 @@ public class LewelManagerScript : MonoBehaviour
     void Update()
     {
         if(currentGroup != null && currentGroup.isAlive == false) {
-            if (groupCount == 1) {
+            if (groupCount == levelGroupTypes.Length) {
                 SceneManager.LoadSceneAsync(SceneIDS.winSceneID);
             } else {
                 Destroy(currentGroup.gameObject);
