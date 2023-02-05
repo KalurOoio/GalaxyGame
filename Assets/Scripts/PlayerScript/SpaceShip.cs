@@ -19,6 +19,7 @@ public class SpaceShip : MonoBehaviour
     void Update()
     {
         float halfWidth = spriteRenderer.bounds.size.x / 2;
+        float halfHight = spriteRenderer.bounds.size.y/ 2;
 
         bool keyDownMovePlayer = Input.GetKey(KeyCode.LeftArrow)||Input.GetKey(KeyCode.A);
         if(keyDownMovePlayer == true)
@@ -50,6 +51,36 @@ public class SpaceShip : MonoBehaviour
             }
         }
 
+        keyDownMovePlayer = Input.GetKey(KeyCode.UpArrow)||Input.GetKey(KeyCode.W);
+        if(keyDownMovePlayer == true)
+        {
+            Vector3 newPosition = new Vector3(transform.position.x, transform.position.y + speed, 0);
+            Vector3 checjPositio = new Vector3(
+                newPosition.x,
+                newPosition.y + halfHight,
+                0            
+            );
+            if(Helpers.IsPositionOnScreen(checjPositio))
+            {
+                transform.position = newPosition;
+            }
+        }
+
+        keyDownMovePlayer = Input.GetKey(KeyCode.DownArrow)||Input.GetKey(KeyCode.S);
+        if(keyDownMovePlayer == true)
+        {
+            Vector3 newPosition = new Vector3(transform.position.x, transform.position.y - speed, 0);
+            Vector3 checjPositio = new Vector3(
+                newPosition.x,
+                newPosition.y + halfHight,
+                0            
+            );
+            if(Helpers.IsPositionOnScreen(checjPositio))
+            {
+                transform.position = newPosition;
+            }
+        }
+
         keyDownMovePlayer = Input.GetKeyDown(KeyCode.Space);
         if(keyDownMovePlayer == true)
         {
@@ -67,7 +98,14 @@ public class SpaceShip : MonoBehaviour
                 SceneManager.LoadSceneAsync(SceneIDS.loseSceneID);
                 Destroy(gameObject);
             }
-        } 
+        } else {
+            RamShip ship = otherObject.GetComponent<RamShip>();
+            if (ship != null) {
+                Destroy(otherObject);
+                SceneManager.LoadSceneAsync(SceneIDS.loseSceneID);
+                Destroy(gameObject);
+            }
+        }
 
     }
 }

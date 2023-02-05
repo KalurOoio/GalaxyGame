@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class RamGroup : BaseGroup
 {
-    // Start is called before the first frame update
+    public RamShip ship1;
+    public RamShip ship2;
+
+    private List<RamShip> ships = new List<RamShip>();
+
     void Start()
     {
-        
+        ships.Add(ship1);
+        ships.Add(ship1);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        ships.RemoveAll(item => item == null);
+        if(ships.Count == 0)
+        {
+            isAlive = false;
+            return;
+        }
     }
 }

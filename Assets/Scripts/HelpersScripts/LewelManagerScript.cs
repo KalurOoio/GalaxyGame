@@ -6,14 +6,15 @@ using UnityEngine.SceneManagement;
 public class LewelManagerScript : MonoBehaviour
 {
     public GameObject playerShipOriginal;
+    public GameObject ramGroupOriginal;
+
     Vector3 startPlayerPosition = new Vector3(0, -3.5f, 0);
 
     public GameObject enemyGroupOriginal;
-    public GameObject RamGroupOriginal;
     Vector3 startEnemyGroupPosition = new Vector3(0, 3.15f, 0);
 
     private BaseGroup currentGroup;
-    private GroupType[] levelGroupTypes = { GroupType.ram };
+    private GroupType[] levelGroupTypes = { GroupType.shooting, GroupType.ram };
     private int groupCount = 0;
 
     void Start()
@@ -40,8 +41,15 @@ public class LewelManagerScript : MonoBehaviour
 
     void CreateNewGroup() 
     {
-        GameObject newEnemyGroup = Instantiate(enemyGroupOriginal);
-        newEnemyGroup.transform.position = startEnemyGroupPosition;
-        currentGroup = newEnemyGroup.GetComponent<FirstGroup>();
+        if (levelGroupTypes[groupCount] == GroupType.shooting) {
+            GameObject newEnemyGroup = Instantiate(enemyGroupOriginal);
+            newEnemyGroup.transform.position = startEnemyGroupPosition;
+            currentGroup = newEnemyGroup.GetComponent<FirstGroup>();
+        } else if (levelGroupTypes[groupCount] == GroupType.ram) {
+            GameObject newEnemyGroup = Instantiate(ramGroupOriginal);
+            newEnemyGroup.transform.position = startEnemyGroupPosition;
+            currentGroup = newEnemyGroup.GetComponent<RamGroup>();
+        }
+        
     }
 }
